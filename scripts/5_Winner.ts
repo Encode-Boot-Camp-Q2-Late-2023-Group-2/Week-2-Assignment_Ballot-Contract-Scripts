@@ -1,8 +1,7 @@
 import { ethers } from "hardhat";
 
-const contractAddress = "0x78b78280E0586b027a35F7feF0566DA734c39036";
-
 async function main() {
+    const [contractAddress] = process.argv.slice(2);
     const accounts = await ethers.getSigners();
     const deployer = accounts[0];
 
