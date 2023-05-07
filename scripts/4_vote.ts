@@ -16,12 +16,12 @@ async function main() {
     );
 
     const playerBallotContract = ballotContract.connect(player);
-    const tx = await playerBallotContract.vote("1");
+    const tx = await playerBallotContract.vote(votingProposal);
     await tx.wait(1);
     console.log(`${player.address} voted for ${ethers.utils.parseBytes32String(proposal.name)}`);
 
     console.log(`After voting ..........`);
-    proposal = await ballotContract.proposals(1);
+    proposal = await ballotContract.proposals(votingProposal);
     console.log(
         `${ethers.utils.parseBytes32String(proposal.name)} vote count: ${proposal.voteCount}`
     );
