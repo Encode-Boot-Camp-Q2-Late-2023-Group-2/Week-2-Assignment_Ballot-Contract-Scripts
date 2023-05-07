@@ -13,7 +13,9 @@ async function main() {
 
     console.log(`Before voting ..........`);
     let proposal = await ballotContract.proposals(votingProposal);
-    console.log(`${ethers.utils.parseBytes32String(proposal)} vote count: ${proposal.voteCount}`);
+    console.log(
+        `${ethers.utils.parseBytes32String(proposal.name)} vote count: ${proposal.voteCount}`
+    );
 
     const playerBallotContract = ballotContract.connect(player);
     const tx = await playerBallotContract.vote("1");
@@ -22,7 +24,9 @@ async function main() {
 
     console.log(`After voting ..........`);
     proposal = await ballotContract.proposals(1);
-    console.log(`${ethers.utils.parseBytes32String(proposal)} vote count: ${proposal.voteCount}`);
+    console.log(
+        `${ethers.utils.parseBytes32String(proposal.name)} vote count: ${proposal.voteCount}`
+    );
 }
 
 main().catch((error) => {
