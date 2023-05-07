@@ -12,12 +12,7 @@ async function main() {
     const winningProposal = await ballotContract.winningProposal();
     const winnerName = await ballotContract.winnerName();
     console.log(`Winning Proposal: ${winningProposal}`);
-    console.log(`Proposal Name: ${winnerName}`);
-
-    let proposal = await ballotContract.proposals("1");
-    console.log(
-        `${ethers.utils.parseBytes32String(proposal.name)} vote count: ${proposal.voteCount}`
-    );
+    console.log(`Proposal Name: ${ethers.utils.parseBytes32String(winnerName)}`);
 }
 
 main().catch((error) => {
