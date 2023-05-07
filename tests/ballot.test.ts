@@ -1,7 +1,6 @@
 import { expect, assert } from "chai";
 import { ethers } from "hardhat";
 import { Ballot } from "../typechain-types";
-import { send } from "process";
 
 const PROPOSALS = ["Propoasal 1", "Proposal 2", "Proposal 3"];
 

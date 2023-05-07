@@ -1,20 +1,19 @@
-// import { ethers } from "hardhat";
-import { ethers } from "ethers";
+// import { ethers } from "ethers";
+import { ethers } from "hardhat";
 import { Ballot__factory } from "../typechain-types";
-import * as dotenv from "dotenv";
-dotenv.config();
 
 // const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
+const network = "sepolia";
 
 async function main() {
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? "");
-    console.log(`Connected to the address: ${wallet.address}`);
+    // const wallet = new ethers.Wallet(process.env.PRIVATE_KEY ?? "");
+    // console.log(`Connected to the address: ${wallet.address}`);
 
-    const provider = new ethers.providers.AlchemyProvider("goerli", process.env.ALCHEMY_API_KEY);
-    const latestBlock = await provider.getBlock("latest");
-    console.log(`Connected to the Block Number: ${latestBlock?.number}`);
+    // const provider = new ethers.providers.AlchemyProvider(network, process.env.ALCHEMY_API_KEY);
+    // const latestBlock = await provider.getBlock("latest");
+    // console.log(`Connected to the Block Number: ${latestBlock?.number}`);
 
-    const deployer = wallet.connect(provider);
+    const deployer = (await ethers.getSigners())[0];
     const balance = await deployer.getBalance();
     console.log(`Balance of deployer: ${balance} WEI`);
 
