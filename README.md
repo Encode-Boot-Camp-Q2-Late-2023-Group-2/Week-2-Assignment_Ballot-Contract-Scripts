@@ -10,7 +10,7 @@ Run `yarn hardhat test` to see test results.
 ```
 yarn run ts-node --files scripts/1_deploy.ts <proposal1> <proposal2> <...>
 ```
-(Assignment)\
+(Assignment)
 ```
 yarn run ts-node --files scripts/1_deploy.ts Judo Jujutsu Boxing
 ```
@@ -32,7 +32,7 @@ Chairperson of the Ballot: 0xE8b8f17e8A0F2D152200c8dC7FB0114A340dDb69
 ```
 yarn run ts-node --files scripts/2_GiveRightToVote.ts <contract address>
 ```
-(Assignment) \
+(Assignment)
 ```
 yarn run ts-node --files scripts/2_GiveRightToVote.ts 0xf27A8620A82d37881dB2ef3eD868F8B98B497047
 ```
@@ -47,7 +47,7 @@ Voter "0xe9C757DF8c8100C11bCBd3066981aBF69F605d63" have right to vote with weigh
 ```
 yarn run ts-node --files scripts/3_Delegate.ts <contract address>
 ```
-(Assignment)\
+(Assignment)
 ```
 yarn run ts-node --files scripts/3_Delegate.ts 0xf27A8620A82d37881dB2ef3eD868F8B98B497047
 ```
@@ -69,7 +69,7 @@ Is "0xe9C757DF8c8100C11bCBd3066981aBF69F605d63" voted? false
 ```
 yarn run ts-node --files scripts/4_vote.ts <contract address> <proposal>
 ```
-(Assignment)\
+(Assignment)
 ```
 yarn run ts-node --files scripts/4_vote.ts "0xf27A8620A82d37881dB2ef3eD868F8B98B497047" "1"
 ```
@@ -88,7 +88,7 @@ Jujutsu vote count: 2
 ```
 yarn run ts-node --files scripts/5_Winner.ts <contract address>
 ```
-(Assignment)\
+(Assignment)
 ```
 yarn run ts-node --files scripts/5_Winner.ts 0xf27A8620A82d37881dB2ef3eD868F8B98B497047
 ```
