@@ -6,7 +6,7 @@ async function main() {
     const deployer = accounts[0];
     const player = accounts[1];
 
-    console.log(`Delegating "${deployer.address}" voting rights to "${player.address}"`);
+    console.log(`Delegating voting right from "${deployer.address}" to "${player.address}"`);
     const ballotContract = await ethers.getContractAt("Ballot", contractAddress, deployer);
 
     console.log("Before delegation..........");
@@ -14,7 +14,7 @@ async function main() {
     let voter2 = await ballotContract.voters(player.address);
     console.log(`Is "${deployer.address}" voted? ${voter1.voted}`);
     console.log(`Is "${player.address}" voted? ${voter2.voted}`);
-    console.log(`"${deployer.address}" weight: ${voter2.weight}`);
+    console.log(`"${player.address}" weight: ${voter2.weight}`);
 
     const tx = await ballotContract.delegate(player.address);
     await tx.wait(1);
@@ -24,7 +24,7 @@ async function main() {
     voter2 = await ballotContract.voters(player.address);
     console.log(`Is "${deployer.address}" voted? ${voter1.voted}`);
     console.log(`Is "${player.address}" voted? ${voter2.voted}`);
-    console.log(`"${deployer.address}" weight: ${voter2.weight}`);
+    console.log(`"${player.address}" weight: ${voter2.weight}`);
 }
 
 main().catch((error) => {
