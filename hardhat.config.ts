@@ -17,7 +17,7 @@ const PLAYER_PRIVATE_KEY = process.env.PLAYER_PRIVATE_KEY ?? "";
 const ALCHEMY_RPC_URL = process.env.ALCHEMY_RPC_URL;
 
 const config: HardhatUserConfig = {
-    defaultNetwork: "sepolia",
+    defaultNetwork: "sepolia", // Change this to hardhat for tests
     networks: {
         hardhat: {},
         // goerli: {
