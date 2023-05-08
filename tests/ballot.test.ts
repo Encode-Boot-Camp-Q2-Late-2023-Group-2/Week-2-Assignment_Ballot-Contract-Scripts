@@ -2,7 +2,7 @@ import { expect, assert } from "chai";
 import { ethers } from "hardhat";
 import { Ballot } from "../typechain-types";
 
-const PROPOSALS = ["Propoasal 1", "Proposal 2", "Proposal 3"];
+const PROPOSALS = ["Propoasal 1", "Proposal 2", "Proposal 3", "Proposal 4", "Proposal 5"];
 
 function convertStrArrToBytes32(propoasals: string[]) {
     const bytes32Arr = [];
@@ -13,10 +13,10 @@ function convertStrArrToBytes32(propoasals: string[]) {
 }
 
 describe("Ballot", () => {
-    let ballotContract: Ballot, deployer: any, player: any, playerAddress: any;
+    let ballotContract: Ballot, deployer: any, player: any, playerAddress: any, signers: any;
 
     beforeEach(async () => {
-        const signers = await ethers.getSigners();
+        signers = await ethers.getSigners();
         deployer = signers[0];
         player = signers[1];
         playerAddress = player.address;
@@ -106,6 +106,84 @@ describe("Ballot", () => {
             await expect(attackerBallotContract.giveRightToVote(playerAddress)).to.be.revertedWith(
                 "Only chairperson can give right to vote."
             );
+        });
+    });
+
+    describe("when the an attacker interact with the vote function in the contract", function () {
+        it("should revert", async () => {
+            const attackerBallotContract = ballotContract.connect(player);
+            await expect(attackerBallotContract.vote("1")).to.be.revertedWith(
+                "Has no right to vote"
+            );
+        });
+    });
+
+    describe("when the an attacker interact with the delegate function in the contract", function () {
+        it("should revert", async () => {
+            const attackerBallotContract = ballotContract.connect(player);
+            await expect(attackerBallotContract.delegate(playerAddress)).to.be.revertedWith(
+                "You have no right to vote"
+            );
+        });
+    });
+
+    describe("when someone interact with the winningProposal function before any votes are cast", function () {
+        it("should return 0", async () => {
+            const winningProposal = await ballotContract.winningProposal();
+            expect(winningProposal).to.eq(0);
+        });
+    });
+
+    describe("when someone interact with the winningProposal function after one vote is cast for the first proposal", function () {
+        it("should return 0", async () => {
+            await ballotContract.vote("0");
+            const winningProposal = await ballotContract.winningProposal();
+            expect(winningProposal).to.eq(0);
+        });
+    });
+
+    describe("when someone interact with the winnerName function before any votes are cast", function () {
+        it("should return name of proposal 0", async () => {
+            const winnerName = await ballotContract.winnerName();
+            const firstProposal = await ballotContract.proposals(0);
+            expect(winnerName).to.eq(firstProposal.name);
+        });
+    });
+
+    describe("when someone interact with the winnerName function after one vote is cast for the first proposal", function () {
+        it("should return name of proposal 0", async () => {
+            await ballotContract.vote("0");
+            const winnerName = await ballotContract.winnerName();
+            const firstProposal = await ballotContract.proposals(0);
+            expect(winnerName).to.eq(firstProposal.name);
+        });
+    });
+
+    describe("when someone interact with the winningProposal function and winnerName after 5 random votes are cast for the proposals", function () {
+        let count: number, voters: any;
+        beforeEach(async () => {
+            count = 5;
+            voters = [];
+            const startSigner = 2;
+            for (let i = startSigner; i < startSigner + count; i++) {
+                const voter = signers[i];
+                voters.push(voter);
+            }
+        });
+        it("should return the name of the winner proposal", async () => {
+            for (let i = 0; i < count; i++) {
+                await ballotContract.giveRightToVote(voters[i].address);
+                const voterBallotContract = ballotContract.connect(voters[i]);
+                await voterBallotContract.vote(i); // one vote for each proposal
+            }
+            await ballotContract.vote("1"); // this makes proposal 2 to be the winner
+
+            const winningProposal = await ballotContract.winningProposal();
+            const winnerName = await ballotContract.winnerName();
+            const proposal = await ballotContract.proposals(1);
+
+            expect(winningProposal).to.eq(1);
+            expect(winnerName).to.eq(proposal.name);
         });
     });
 });
