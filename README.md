@@ -4,7 +4,7 @@
 Run `yarn` to install all dependancies.\
 Testnet used: Sepolia.\
 Default network: Sepolia.\
-Run `yarn hardhat test` to see test results.
+Run `yarn hardhat test` to see test results (change default network to hardhat before running tests).
 ## Scripts & Contract Interaction (Assignment Report)
 ### Deployment
 ```
